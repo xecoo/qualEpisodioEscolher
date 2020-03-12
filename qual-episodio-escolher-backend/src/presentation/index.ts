@@ -12,12 +12,12 @@ import {
     CreateEpisodesUCInput,
     CreateEpisodesUC
 } from '../business/usecases/episodes/createEpisodesUC';
-
+import { GetAllEpisodesUC } from '../business/usecases/episodes/getAllEpisodesUC';
 
 const app = express()
 app.use(express.json());
 
-app.post("/series/createSeries", async (req: Request, res: Response) => {
+app.post("/series/createseries", async (req: Request, res: Response) => {
     try {
         const serie: CreateSeriesUCInput = {
             titulo: req.body.titulo,
@@ -31,9 +31,8 @@ app.post("/series/createSeries", async (req: Request, res: Response) => {
             new GenerateId
         )
 
-        const result = {
-            authentication: await createSeriesUC.execute(serie)
-        }
+        const result = await createSeriesUC.execute(serie)
+       
 
         return {
             status: 200,
@@ -44,7 +43,7 @@ app.post("/series/createSeries", async (req: Request, res: Response) => {
         response.status(404).send(e.message)
     }
 })
-
+/*
 app.get("/series/getallseries", async (req: Request, res: Response) => {
     try {
         const getAllSeriesUC = new GetAllSeriesUC(new SerieDB());
@@ -55,7 +54,7 @@ app.get("/series/getallseries", async (req: Request, res: Response) => {
     }
 })
 
-app.post("/episodes/createEpisodes", async (req: Request, res: Response) => {
+app.post("/episodes/createepisodes", async (req: Request, res: Response) => {
     try {
         const episode: CreateEpisodesUCInput = {
             temporada: req.body.temporada,
@@ -83,6 +82,26 @@ app.post("/episodes/createEpisodes", async (req: Request, res: Response) => {
     } catch (e) {
         res.status(404).send(e.message)
     }
-})
 
-export default app
+    app.get("/series/getallepisodes", async (req: Request, res: Response) => {
+        try {
+            const getAllEpisodesUC = new GetAllEpisodesUC(new EpisodeDB());
+            const result = await getAllEpisodesUC.execute();
+            res.status(200).send(result);
+        } catch (e) {
+            res.status(404).send(e.message)
+        }
+    })
+
+    app.get("/lottery", async(req:Request,res:Response)=> {
+        try{
+            const getAllEpisodesUC = new GetAllEpisodesUC(new EpisodeDB());
+            const result = await getAllEpisodesUC.lottery();
+            res.status(200).send(result)
+        }catch (e){
+            res.status(404).send(e.message)
+        }
+    })
+})
+*/
+export default app;

@@ -10,12 +10,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 class GetAllEpisodesUC {
-    constructor(episodesGateway) {
-        this.episodesGateway = episodesGateway;
+    constructor(episodeDataSource) {
+        this.episodeDataSource = episodeDataSource;
     }
     execute() {
         return __awaiter(this, void 0, void 0, function* () {
-            const episode = yield this.episodesGateway.getAllEpisodes();
+            const episode = yield this.episodeDataSource.getAllEpisodes();
             return {
                 episodes: episode.map(episode => ({
                     id: episode.getId(),
@@ -25,6 +25,22 @@ class GetAllEpisodesUC {
                     sinopse: episode.getSinopse(),
                     idSerie: episode.getIdSerie()
                 }))
+            };
+        });
+    }
+    lottery() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const episode = yield this.episodeDataSource.getAllEpisodes();
+            const lotteryEpisode = episode[Math.floor(Math.random() * episode.length)];
+            return {
+                episodes: {
+                    id: lotteryEpisode.getId(),
+                    temporada: lotteryEpisode.getTemporada(),
+                    titulo: lotteryEpisode.getTitulo(),
+                    lancamento: lotteryEpisode.getLancamento(),
+                    sinopse: lotteryEpisode.getSinopse(),
+                    idSerie: lotteryEpisode.getIdSerie()
+                }
             };
         });
     }

@@ -9,9 +9,9 @@ class BaseDB {
         this.connection = knex_1.default({
             client: "mysql",
             connection: {
-                host: "",
+                host: "ec2-34-228-216-172.compute-1.amazonaws.com",
                 user: "bruno",
-                password: "",
+                password: process.env.SENHA_TCC,
                 database: "qualEpisodioAssistir",
                 ssl: true
             }

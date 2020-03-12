@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const baseDB_1 = require("./base/baseDB");
 const serie_1 = require("../business/entities/serie");
-const table = "qualEpisodioEscolher_series";
+const table = "qualEpisodioAssistir_series";
 class SerieDB extends baseDB_1.BaseDB {
     createSerie(serie) {
         return __awaiter(this, void 0, void 0, function* () {

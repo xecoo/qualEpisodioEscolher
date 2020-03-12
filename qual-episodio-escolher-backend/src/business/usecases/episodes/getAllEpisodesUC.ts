@@ -3,11 +3,11 @@ import { EpisodesDataSource } from '../../dataSource/episodesDataSource';
 
 export class GetAllEpisodesUC {
     constructor(
-        private episodesGateway: EpisodesDataSource
+        private episodeDataSource: EpisodesDataSource
     ) { }
 
     public async execute(): Promise<GetAllEpisodesUCOutput> {
-        const episode = await this.episodesGateway.getAllEpisodes();
+        const episode = await this.episodeDataSource.getAllEpisodes();
 
         return {
             episodes: episode.map(episode => ({
@@ -21,17 +21,36 @@ export class GetAllEpisodesUC {
         }
 
     }
+
+    public async lottery(): Promise<GetLotterysEpisodeOutput> {
+        const episode = await this.episodeDataSource.getAllEpisodes();
+        const lotteryEpisode = episode[Math.floor(Math.random() * episode.length)];
+        return {
+            episodes: {
+                id: lotteryEpisode.getId(),
+                temporada: lotteryEpisode.getTemporada(),
+                titulo: lotteryEpisode.getTitulo(),
+                lancamento: lotteryEpisode.getLancamento(),
+                sinopse: lotteryEpisode.getSinopse(),
+                idSerie: lotteryEpisode.getIdSerie()
+            }
+        }
+    }
 }
 
-interface GetAllEpisodesUCOutput {
+export interface GetAllEpisodesUCOutput {
     episodes: GetAllEpisodesUCDetails[]
 }
 
-interface GetAllEpisodesUCDetails {
+export interface GetAllEpisodesUCDetails {
     id: string,
     temporada: number,
     titulo: string,
     lancamento: number,
     sinopse: string,
     idSerie: string
+}
+
+export interface GetLotterysEpisodeOutput {
+    episodes: GetAllEpisodesUCDetails
 }
