@@ -29,7 +29,7 @@ class SerieDB extends baseDB_1.BaseDB {
                 "${serie.getTitulo()}",
                 "${serie.getLancamento()}",
                 "${serie.getSinopse()}",
-                "${serie.getCategoria()}",
+                "${serie.getCategoria()}"
             );
         `);
         });

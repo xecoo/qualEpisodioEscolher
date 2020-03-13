@@ -21,7 +21,7 @@ export class SerieDB extends BaseDB implements SeriesDataSource {
                 "${serie.getTitulo()}",
                 "${serie.getLancamento()}",
                 "${serie.getSinopse()}",
-                "${serie.getCategoria()}",
+                "${serie.getCategoria()}"
             );
         `)
     }

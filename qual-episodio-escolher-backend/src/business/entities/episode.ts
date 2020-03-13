@@ -3,6 +3,7 @@ export class Episode {
         private id: string,
         private temporada: number,
         private titulo: string,
+        private episodio:number,
         private lancamento: number,
         private sinopse: string,
         private idSerie:string
@@ -18,6 +19,10 @@ export class Episode {
 
     public getTitulo(): string {
         return this.titulo
+    }
+
+    public getEpisodio():number {
+        return this.episodio;
     }
 
     public getLancamento(): number {

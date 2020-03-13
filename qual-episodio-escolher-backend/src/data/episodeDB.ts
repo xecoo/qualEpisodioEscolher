@@ -1,10 +1,18 @@
+import { Episode } from './../business/entities/episode';
 import { EpisodesDataSource } from './../business/dataSource/episodesDataSource';
 import { BaseDB } from "./base/baseDB";
-import { Episode } from '../business/entities/episode';
 
 const table: string = "qualEpisodioAssistir_episodes";
 
 export class EpisodeDB extends BaseDB implements EpisodesDataSource {
+
+    public async getLotteryEpisodeById(idSerie: string): Promise<Episode> {
+        const allEpisodes = await this.connection.raw(`
+            SELECT * FROM ${table} WHERE id=${idSerie};
+        `)
+        return allEpisodes[0].map(this.dbModelToEpisode);
+    }
+
     public async createEpisode(episode: Episode): Promise<void> {
         await this.connection.raw(`
         INSERT INTO
@@ -12,17 +20,19 @@ export class EpisodeDB extends BaseDB implements EpisodesDataSource {
                 id,
                 temporada,
                 titulo,
+                episodio,
                 lancamento,
                 sinopse,
-                idSerie,
+                idSerie
             )
         VALUES (
             "${episode.getId()}",
-            "${episode.getTemporada()}",
+            ${episode.getTemporada()},
             "${episode.getTitulo()}",
-            "${episode.getLancamento()}",
+            ${episode.getEpisodio()},
+            ${episode.getLancamento()},
             "${episode.getSinopse()}",
-            "${episode.getIdSerie()}",
+            "${episode.getIdSerie()}"
         )
         `)
     }
@@ -31,7 +41,8 @@ export class EpisodeDB extends BaseDB implements EpisodesDataSource {
         return new Episode(
             dbModel.id,
             dbModel.temporada,
-            dbModel.Titulo,
+            dbModel.titulo,
+            dbModel.episodio,
             dbModel.lancamento,
             dbModel.sinopse,
             dbModel.idSerie
@@ -40,7 +51,8 @@ export class EpisodeDB extends BaseDB implements EpisodesDataSource {
 
     public async getAllEpisodes(): Promise<Episode[]> {
         const allEpisodes = await this.connection.raw(`
-            SELECT * FROM ${table} ;
+            SELECT * FROM ${table} 
+            ORDER BY temporada ASC, episodio ASC ;
         `);
         return allEpisodes[0].map(this.dbModelToEpisode);
     }
@@ -66,6 +78,7 @@ export class EpisodeDB extends BaseDB implements EpisodesDataSource {
             returnedEpisode.getId(),
             returnedEpisode.getTemporada(),
             returnedEpisode.getTitulo(),
+            returnedEpisode.getEpisodio(),
             returnedEpisode.getLancamento(),
             returnedEpisode.getSinopse(),
             returnedEpisode.getIdSerie()

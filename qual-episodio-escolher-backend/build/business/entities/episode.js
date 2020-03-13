@@ -1,10 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class Episode {
-    constructor(id, temporada, titulo, lancamento, sinopse, idSerie) {
+    constructor(id, temporada, titulo, episodio, lancamento, sinopse, idSerie) {
         this.id = id;
         this.temporada = temporada;
         this.titulo = titulo;
+        this.episodio = episodio;
         this.lancamento = lancamento;
         this.sinopse = sinopse;
         this.idSerie = idSerie;
@@ -17,6 +18,9 @@ class Episode {
     }
     getTitulo() {
         return this.titulo;
+    }
+    getEpisodio() {
+        return this.episodio;
     }
     getLancamento() {
         return this.lancamento;

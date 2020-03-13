@@ -32,5 +32,5 @@ export interface CreateSeriesUCInput {
     titulo: string,
     lancamento: number,
     sinopse: string,
-    categoria: string[]
+    categoria: string
 }

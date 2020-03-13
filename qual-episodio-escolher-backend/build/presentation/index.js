@@ -8,18 +8,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const serieDB_1 = require("../data/serieDB");
+const getAllSeriesUC_1 = require("../business/usecases/series/getAllSeriesUC");
 const createSeriesUC_1 = require("../business/usecases/series/createSeriesUC");
-const express_1 = __importStar(require("express"));
+const express_1 = __importDefault(require("express"));
 const generateId_1 = require("../services/generateId/generateId");
+const episodeDB_1 = require("../data/episodeDB");
+const createEpisodesUC_1 = require("../business/usecases/episodes/createEpisodesUC");
+const getAllEpisodesUC_1 = require("../business/usecases/episodes/getAllEpisodesUC");
 const app = express_1.default();
 app.use(express_1.default.json());
 app.post("/series/createseries", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -32,75 +32,66 @@ app.post("/series/createseries", (req, res) => __awaiter(void 0, void 0, void 0,
         };
         const createSeriesUC = new createSeriesUC_1.CreateSeriesUC(new serieDB_1.SerieDB(), new generateId_1.GenerateId);
         const result = yield createSeriesUC.execute(serie);
-        return {
+        res.send({
             status: 200,
             result,
             message: `${serie.titulo} foi criada com sucesso!`
-        };
+        });
     }
     catch (e) {
-        express_1.response.status(404).send(e.message);
+        res.status(404).send(e.message);
     }
 }));
-/*
-app.get("/series/getallseries", async (req: Request, res: Response) => {
+app.get("/series/getallseries", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const getAllSeriesUC = new GetAllSeriesUC(new SerieDB());
-        const result = await getAllSeriesUC.execute();
+        const getAllSeriesUC = new getAllSeriesUC_1.GetAllSeriesUC(new serieDB_1.SerieDB());
+        const result = yield getAllSeriesUC.execute();
         res.status(200).send(result);
-    } catch (e) {
-        res.status(404).send(e.message)
     }
-})
-
-app.post("/episodes/createepisodes", async (req: Request, res: Response) => {
+    catch (e) {
+        res.status(404).send(e.message);
+    }
+}));
+app.post("/episodes/createepisodes", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const episode: CreateEpisodesUCInput = {
+        const episode = {
             temporada: req.body.temporada,
             titulo: req.body.titulo,
+            episodio: req.body.episodio,
             lancamento: req.body.lancamento,
             sinopse: req.body.sinopse,
             idSerie: req.body.idSerie
-        }
-
-        const createEpisodesUC = new CreateEpisodesUC(
-            new EpisodeDB,
-            new GenerateId
-        )
-
-        const result = {
-            authentication: await createEpisodesUC.execute(episode)
-        }
-
-        return {
+        };
+        const createEpisodesUC = new createEpisodesUC_1.CreateEpisodesUC(new episodeDB_1.EpisodeDB, new generateId_1.GenerateId);
+        const result = yield createEpisodesUC.execute(episode);
+        res.send({
             status: 200,
             result,
             message: `${episode.titulo} da série ${episode.idSerie} foi criada com sucesso!`
-        }
-
-    } catch (e) {
-        res.status(404).send(e.message)
+        });
     }
-
-    app.get("/series/getallepisodes", async (req: Request, res: Response) => {
-        try {
-            const getAllEpisodesUC = new GetAllEpisodesUC(new EpisodeDB());
-            const result = await getAllEpisodesUC.execute();
-            res.status(200).send(result);
-        } catch (e) {
-            res.status(404).send(e.message)
-        }
-    })
-
-    app.get("/lottery", async(req:Request,res:Response)=> {
-        try{
-            const getAllEpisodesUC = new GetAllEpisodesUC(new EpisodeDB());
-            const result = await getAllEpisodesUC.lottery();
-            res.status(200).send(result)
-        }catch (e){
-            res.status(404).send(e.message)
-        }
-    })
-})
-*/
+    catch (e) {
+        res.status(404).send(e.message);
+    }
+}));
+app.get("/episodes/getallepisodes", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const getAllEpisodesUC = new getAllEpisodesUC_1.GetAllEpisodesUC(new episodeDB_1.EpisodeDB());
+        const result = yield getAllEpisodesUC.execute();
+        res.status(200).send(result);
+    }
+    catch (e) {
+        res.status(404).send(e.message);
+    }
+}));
+app.get("/lottery", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const getAllEpisodesUC = new getAllEpisodesUC_1.GetAllEpisodesUC(new episodeDB_1.EpisodeDB());
+        const result = yield getAllEpisodesUC.lottery();
+        res.status(200).send(result);
+    }
+    catch (e) {
+        res.status(404).send(e.message);
+    }
+}));
 exports.default = app;
