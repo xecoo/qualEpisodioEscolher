@@ -4,8 +4,6 @@ import {
     CreateSeriesUC,
     CreateSeriesUCInput
 } from '../business/usecases/series/createSeriesUC';
-import express, { Request, Response, response } from 'express'
-
 import { GenerateId } from '../services/generateId/generateId';
 import { EpisodeDB } from '../data/episodeDB';
 import {
@@ -25,27 +23,29 @@ export class ApiRouter {
                     lancamento: event.body.lancamento,
                     sinopse: event.body.sinopse,
                     categoria: event.body.categoria
-                }
+                };
 
                 const createSeriesUC = new CreateSeriesUC(
                     new SerieDB(),
                     new GenerateId
-                )
+                );
 
-                const result = await createSeriesUC.execute(serie)
+                const resultCreateSeries = await createSeriesUC.execute(serie);
 
                 return {
                     status: 200,
-                    result,
+                    resultCreateSeries,
                     message: `${serie.titulo} foi criada com sucesso!`
-                }
+                };
+
             case '/series/getallseries':
 
                 const getAllSeriesUC = new GetAllSeriesUC(new SerieDB());
-                const result = await getAllSeriesUC.execute();
+                const resultGetAllSeries = await getAllSeriesUC.execute();
                 return {
-                    result
-                }
+                    resultGetAllSeries
+                };
+
             case '/episodes/createepisodes':
 
                 const episode: CreateEpisodesUCInput = {
@@ -62,25 +62,35 @@ export class ApiRouter {
                     new GenerateId
                 );
 
-                const result = await createEpisodesUC.execute(episode);
+                const resultCreateEpisodes = await createEpisodesUC.execute(episode);
 
                 return {
                     status: 200,
-                    result,
+                    resultCreateEpisodes,
                     message: `${episode.titulo} da série ${episode.idSerie} foi criada com sucesso!`
-                }
+                };
 
             case '/episodes/getallepisodes':
 
-                const getAllEpisodesUC = new GetAllEpisodesUC(new EpisodeDB());
-                const result = await getAllEpisodesUC.execute();
-                res.status(200).send(result);
+                const newGetAllEpisodesUC = new GetAllEpisodesUC(new EpisodeDB());
+                const resultGetAllEpisodes = await newGetAllEpisodesUC.execute();
+                return {
+                    resultGetAllEpisodes
+                };
 
             case '/lottery':
 
-                const getAllEpisodesUC = new GetAllEpisodesUC(new EpisodeDB());
-                const result = await getAllEpisodesUC.lottery();
-                res.status(200).send(result)
+                const getLotterysEpisode = new GetAllEpisodesUC(new EpisodeDB());
+                const resultLottery = await getLotterysEpisode.lottery();
+                return {
+                    resultLottery
+                };
+
+            case '/testedeendpoint':
+                
+                return {
+                    mensagem : "Esse teste está funcionando!"
+                };
 
             default:
                 new Error("Rota não existe!");
