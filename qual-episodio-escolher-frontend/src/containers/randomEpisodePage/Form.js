@@ -21,15 +21,23 @@ export default class Form extends Component {
 
     onSubmitSerie = async (event) => {
         event.preventDefault();
-        const serieInfo = {
-            idSerie: this.state.serie
+        const body = {
+            idSerie: this.state.serie,
         }
-        console.log("Idserie: ", serieInfo)
+        console.log("Idserie: ", body)
+
+        const config = {
+            headers: {'Access-Control-Allow-Origin': '*'}
+        };
+
         const response = await axios
             .get(
                 'https://6i406gvgj9.execute-api.us-east-1.amazonaws.com/producao/lottery',
-                serieInfo 
-            );
+                config, body
+                
+            )
+        ;
+
         //TODO - erro de CORS
         console.log(response.data);
     }
@@ -50,7 +58,7 @@ export default class Form extends Component {
                 </p>
                 <label>Escolha qual série quer assistir hoje:</label>
                 <form onSubmit={this.onSubmitSerie} >
-                    <label >Serie</label>
+                    <label >Série</label>
                     <select
                         name="serie"
                         value={this.state.serie}
