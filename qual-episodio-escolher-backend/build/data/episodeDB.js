@@ -13,14 +13,12 @@ const episode_1 = require("./../business/entities/episode");
 const baseDB_1 = require("./base/baseDB");
 const table = "qualEpisodioAssistir_episodes";
 class EpisodeDB extends baseDB_1.BaseDB {
-    getLotteryEpisodeById(idSerie) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const allEpisodes = yield this.connection.raw(`
-            SELECT * FROM ${table} WHERE id=${idSerie};
-        `);
-            return allEpisodes[0].map(this.dbModelToEpisode);
-        });
-    }
+    // public async getLotteryEpisodeById(idSerie: string): Promise<Episode[]> {
+    //     const allEpisodes = await this.connection.raw(`
+    //         SELECT * FROM ${table} WHERE idSerie="${idSerie}";
+    //     `)
+    //     return allEpisodes[0].map(this.dbModelToEpisode);
+    // }
     createEpisode(episode) {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.connection.raw(`
@@ -61,7 +59,7 @@ class EpisodeDB extends baseDB_1.BaseDB {
     verifyEpisodesExists(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const episode = yield this.connection.raw(`
-            SELECT * FROM ${table} WHERE id=${id};
+            SELECT * FROM ${table} WHERE id="${id}";
         `);
             return episode;
         });
@@ -69,7 +67,7 @@ class EpisodeDB extends baseDB_1.BaseDB {
     getEpisodesById(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const episode = yield this.connection.raw(`
-            SELECT * FROM ${table} WHERE id=${id};
+            SELECT * FROM ${table} WHERE id="${id}";
         `);
             const returnedEpisode = this.dbModelToEpisode(episode[0][0]);
             if (!returnedEpisode) {
@@ -82,7 +80,7 @@ class EpisodeDB extends baseDB_1.BaseDB {
         return __awaiter(this, void 0, void 0, function* () {
             const allEpisodesBySerie = yield this.connection.raw(`
             SELECT * FROM ${table} 
-            WHERE idSerie=${idSerie};
+            WHERE idSerie="${idSerie}";
         `);
             return allEpisodesBySerie[0].map(this.dbModelToEpisode);
         });

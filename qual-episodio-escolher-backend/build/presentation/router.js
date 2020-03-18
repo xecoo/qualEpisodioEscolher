@@ -20,7 +20,7 @@ class ApiRouter {
     static handleRoute(path, event) {
         return __awaiter(this, void 0, void 0, function* () {
             switch (path) {
-                case '/series/createseries':
+                case 'series/createseries':
                     const serie = {
                         titulo: event.body.titulo,
                         lancamento: event.body.lancamento,
@@ -34,13 +34,11 @@ class ApiRouter {
                         resultCreateSeries,
                         message: `${serie.titulo} foi criada com sucesso!`
                     };
-                case '/series/getallseries':
+                case 'series/getallseries':
                     const getAllSeriesUC = new getAllSeriesUC_1.GetAllSeriesUC(new serieDB_1.SerieDB());
                     const resultGetAllSeries = yield getAllSeriesUC.execute();
-                    return {
-                        resultGetAllSeries
-                    };
-                case '/episodes/createepisodes':
+                    return resultGetAllSeries;
+                case 'episodes/createepisodes':
                     const episode = {
                         temporada: event.body.temporada,
                         titulo: event.body.titulo,
@@ -56,22 +54,20 @@ class ApiRouter {
                         resultCreateEpisodes,
                         message: `${episode.titulo} da série ${episode.idSerie} foi criada com sucesso!`
                     };
-                case '/episodes/getallepisodes':
+                case 'episodes/getallepisodes':
                     const newGetAllEpisodesUC = new getAllEpisodesUC_1.GetAllEpisodesUC(new episodeDB_1.EpisodeDB());
                     const resultGetAllEpisodes = yield newGetAllEpisodesUC.execute();
-                    return {
-                        resultGetAllEpisodes
+                    return resultGetAllEpisodes;
+                case 'lottery':
+                    const idSerie = {
+                        idSerie: event.body.idSerie
                     };
-                case '/lottery':
                     const getLotterysEpisode = new getAllEpisodesUC_1.GetAllEpisodesUC(new episodeDB_1.EpisodeDB());
-                    const resultLottery = yield getLotterysEpisode.lottery();
-                    return {
-                        resultLottery
-                    };
-                case '/testedeendpoint':
-                    return {
-                        mensagem: "Esse teste está funcionando!"
-                    };
+                    const resultLottery = yield getLotterysEpisode.getAllEpisodesBySerie(idSerie);
+                    return resultLottery;
+                case 'testedeendpoint':
+                    const mensagem = "Esse teste está funcionando!";
+                    return mensagem;
                 default:
                     new Error("Rota não existe!");
                     break;

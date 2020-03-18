@@ -10,13 +10,13 @@ import {
     CreateEpisodesUCInput,
     CreateEpisodesUC
 } from '../business/usecases/episodes/createEpisodesUC';
-import { GetAllEpisodesUC } from '../business/usecases/episodes/getAllEpisodesUC';
+import { GetAllEpisodesUC, GetOneEpisodeByIdUCInput } from '../business/usecases/episodes/getAllEpisodesUC';
 
 export class ApiRouter {
     public static async handleRoute(path: string, event: any): Promise<any> {
-        
+
         switch (path) {
-            case '/series/createseries':
+            case 'series/createseries':
 
                 const serie: CreateSeriesUCInput = {
                     titulo: event.body.titulo,
@@ -38,15 +38,13 @@ export class ApiRouter {
                     message: `${serie.titulo} foi criada com sucesso!`
                 };
 
-            case '/series/getallseries':
+            case 'series/getallseries':
 
                 const getAllSeriesUC = new GetAllSeriesUC(new SerieDB());
                 const resultGetAllSeries = await getAllSeriesUC.execute();
-                return {
-                    resultGetAllSeries
-                };
+                return resultGetAllSeries;
 
-            case '/episodes/createepisodes':
+            case 'episodes/createepisodes':
 
                 const episode: CreateEpisodesUCInput = {
                     temporada: event.body.temporada,
@@ -70,27 +68,25 @@ export class ApiRouter {
                     message: `${episode.titulo} da série ${episode.idSerie} foi criada com sucesso!`
                 };
 
-            case '/episodes/getallepisodes':
+            case 'episodes/getallepisodes':
 
                 const newGetAllEpisodesUC = new GetAllEpisodesUC(new EpisodeDB());
                 const resultGetAllEpisodes = await newGetAllEpisodesUC.execute();
-                return {
-                    resultGetAllEpisodes
+                return resultGetAllEpisodes;
+
+            case 'lottery':
+
+                const idSerie:GetOneEpisodeByIdUCInput = { 
+                    idSerie: event.body.idSerie 
                 };
-
-            case '/lottery':
-
                 const getLotterysEpisode = new GetAllEpisodesUC(new EpisodeDB());
-                const resultLottery = await getLotterysEpisode.lottery();
-                return {
-                    resultLottery
-                };
+                const resultLottery = await getLotterysEpisode.getAllEpisodesBySerie(idSerie);
+                return resultLottery;
 
-            case '/testedeendpoint':
+            case 'testedeendpoint':
                 
-                return {
-                    mensagem : "Esse teste está funcionando!"
-                };
+                const mensagem = "Esse teste está funcionando!"
+                return mensagem;
 
             default:
                 new Error("Rota não existe!");

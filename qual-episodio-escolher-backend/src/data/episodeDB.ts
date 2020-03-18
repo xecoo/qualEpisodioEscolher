@@ -6,12 +6,13 @@ const table: string = "qualEpisodioAssistir_episodes";
 
 export class EpisodeDB extends BaseDB implements EpisodesDataSource {
 
-    public async getLotteryEpisodeById(idSerie: string): Promise<Episode> {
-        const allEpisodes = await this.connection.raw(`
-            SELECT * FROM ${table} WHERE id=${idSerie};
-        `)
-        return allEpisodes[0].map(this.dbModelToEpisode);
-    }
+
+    // public async getLotteryEpisodeById(idSerie: string): Promise<Episode[]> {
+    //     const allEpisodes = await this.connection.raw(`
+    //         SELECT * FROM ${table} WHERE idSerie="${idSerie}";
+    //     `)
+    //     return allEpisodes[0].map(this.dbModelToEpisode);
+    // }
 
     public async createEpisode(episode: Episode): Promise<void> {
         await this.connection.raw(`
@@ -59,14 +60,14 @@ export class EpisodeDB extends BaseDB implements EpisodesDataSource {
 
     public async verifyEpisodesExists(id: string): Promise<boolean> {
         const episode = await this.connection.raw(`
-            SELECT * FROM ${table} WHERE id=${id};
+            SELECT * FROM ${table} WHERE id="${id}";
         `);
         return episode
     }
 
     public async getEpisodesById(id: string): Promise<Episode> {
         const episode = await this.connection.raw(`
-            SELECT * FROM ${table} WHERE id=${id};
+            SELECT * FROM ${table} WHERE id="${id}";
         `);
         const returnedEpisode = this.dbModelToEpisode(episode[0][0]);
 
@@ -89,9 +90,11 @@ export class EpisodeDB extends BaseDB implements EpisodesDataSource {
     public async getAllEpisodesBySerie(idSerie: string): Promise<Episode[]> {
         const allEpisodesBySerie = await this.connection.raw(`
             SELECT * FROM ${table} 
-            WHERE idSerie=${idSerie};
+            WHERE idSerie="${idSerie}";
         `);
+
         return allEpisodesBySerie[0].map(this.dbModelToEpisode);
+
     }
 
 }
