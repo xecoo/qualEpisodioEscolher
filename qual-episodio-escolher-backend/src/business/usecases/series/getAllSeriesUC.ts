@@ -30,5 +30,5 @@ interface GetAllSeriesUCDetails {
     titulo: string,
     lancamento: number,
     sinopse: string,
-    categoria: string[]
+    categoria: string
 }

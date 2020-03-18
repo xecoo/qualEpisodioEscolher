@@ -8,99 +8,68 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const serieDB_1 = require("../data/serieDB");
-const createSeriesUC_1 = require("../business/usecases/series/createSeriesUC");
-const express_1 = __importStar(require("express"));
-const generateId_1 = require("../services/generateId/generateId");
+const express_1 = __importDefault(require("express"));
+const router_1 = require("./router");
 const app = express_1.default();
-app.use(express_1.default.json());
-app.post("/series/createseries", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.use(express_1.default.json()); // Linha mágica (middleware)
+app.post("/:route", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const serie = {
-            titulo: req.body.titulo,
-            lancamento: req.body.lancamento,
-            sinopse: req.body.sinopse,
-            categoria: req.body.categoria
+        const result = yield router_1.ApiRouter.handleRoute(req.params.route, req);
+        const response = {
+            result
         };
-        const createSeriesUC = new createSeriesUC_1.CreateSeriesUC(new serieDB_1.SerieDB(), new generateId_1.GenerateId);
-        const result = yield createSeriesUC.execute(serie);
-        return {
-            status: 200,
-            result,
-            message: `${serie.titulo} foi criada com sucesso!`
-        };
+        res.status(200).send(response);
     }
-    catch (e) {
-        express_1.response.status(404).send(e.message);
+    catch (err) {
+        res.status(400).send({
+            errorMessage: err.message
+        });
     }
 }));
-/*
-app.get("/series/getallseries", async (req: Request, res: Response) => {
+app.get("/:route", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const getAllSeriesUC = new GetAllSeriesUC(new SerieDB());
-        const result = await getAllSeriesUC.execute();
-        res.status(200).send(result);
-    } catch (e) {
-        res.status(404).send(e.message)
+        const result = yield router_1.ApiRouter.handleRoute(req.params.route, req);
+        const response = {
+            result
+        };
+        res.status(200).send(response);
     }
-})
-
-app.post("/episodes/createepisodes", async (req: Request, res: Response) => {
+    catch (err) {
+        res.status(400).send({
+            errorMessage: err.message
+        });
+    }
+}));
+app.put("/:route", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const episode: CreateEpisodesUCInput = {
-            temporada: req.body.temporada,
-            titulo: req.body.titulo,
-            lancamento: req.body.lancamento,
-            sinopse: req.body.sinopse,
-            idSerie: req.body.idSerie
-        }
-
-        const createEpisodesUC = new CreateEpisodesUC(
-            new EpisodeDB,
-            new GenerateId
-        )
-
-        const result = {
-            authentication: await createEpisodesUC.execute(episode)
-        }
-
-        return {
-            status: 200,
-            result,
-            message: `${episode.titulo} da série ${episode.idSerie} foi criada com sucesso!`
-        }
-
-    } catch (e) {
-        res.status(404).send(e.message)
+        const result = yield router_1.ApiRouter.handleRoute(req.params.route, req);
+        const response = {
+            result
+        };
+        res.status(200).send(response);
     }
-
-    app.get("/series/getallepisodes", async (req: Request, res: Response) => {
-        try {
-            const getAllEpisodesUC = new GetAllEpisodesUC(new EpisodeDB());
-            const result = await getAllEpisodesUC.execute();
-            res.status(200).send(result);
-        } catch (e) {
-            res.status(404).send(e.message)
-        }
-    })
-
-    app.get("/lottery", async(req:Request,res:Response)=> {
-        try{
-            const getAllEpisodesUC = new GetAllEpisodesUC(new EpisodeDB());
-            const result = await getAllEpisodesUC.lottery();
-            res.status(200).send(result)
-        }catch (e){
-            res.status(404).send(e.message)
-        }
-    })
-})
-*/
+    catch (err) {
+        res.status(400).send({
+            errorMessage: err.message
+        });
+    }
+}));
+app.delete("/:route", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield router_1.ApiRouter.handleRoute(req.params.route, req);
+        const response = {
+            result
+        };
+        res.status(200).send(response);
+    }
+    catch (err) {
+        res.status(400).send({
+            errorMessage: err.message
+        });
+    }
+}));
 exports.default = app;

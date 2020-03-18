@@ -9,7 +9,7 @@ export class CreateEpisodesUC {
     ) { }
 
     private verifyInputs(input: CreateEpisodesUCInput) {
-        if (!(input.temporada || input.titulo || input.lancamento || input.sinopse || input.idSerie)) {
+        if (!(input.temporada || input.titulo ||input.episodio || input.lancamento || input.sinopse || input.idSerie)) {
             throw new Error("Dica: Para criar um episódio, deve preencher todos os campos!")
         }
     }
@@ -20,6 +20,7 @@ export class CreateEpisodesUC {
             this.idGeneratorDataSource.generateId(),
             input.temporada,
             input.titulo,
+            input.episodio,
             input.lancamento,
             input.sinopse,
             input.idSerie
@@ -32,6 +33,7 @@ export class CreateEpisodesUC {
 export interface CreateEpisodesUCInput {
     temporada: number,
     titulo: string,
+    episodio:number,
     lancamento: number,
     sinopse: string,
     idSerie:string

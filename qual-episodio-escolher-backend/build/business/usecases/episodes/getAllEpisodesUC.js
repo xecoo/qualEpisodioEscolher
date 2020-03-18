@@ -21,6 +21,7 @@ class GetAllEpisodesUC {
                     id: episode.getId(),
                     temporada: episode.getTemporada(),
                     titulo: episode.getTitulo(),
+                    episodio: episode.getEpisodio(),
                     lancamento: episode.getLancamento(),
                     sinopse: episode.getSinopse(),
                     idSerie: episode.getIdSerie()
@@ -37,6 +38,7 @@ class GetAllEpisodesUC {
                     id: lotteryEpisode.getId(),
                     temporada: lotteryEpisode.getTemporada(),
                     titulo: lotteryEpisode.getTitulo(),
+                    episodio: lotteryEpisode.getEpisodio(),
                     lancamento: lotteryEpisode.getLancamento(),
                     sinopse: lotteryEpisode.getSinopse(),
                     idSerie: lotteryEpisode.getIdSerie()

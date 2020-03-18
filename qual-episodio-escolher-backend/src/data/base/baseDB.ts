@@ -5,7 +5,7 @@ export abstract class BaseDB {
         client: "mysql",
         connection: {
             host: "ec2-34-228-216-172.compute-1.amazonaws.com",
-            user: "bruno",
+            user: "root",
             password: process.env.SENHA_TCC,
             database: "qualEpisodioAssistir",
             ssl: true

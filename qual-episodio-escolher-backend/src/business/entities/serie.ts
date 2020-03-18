@@ -4,7 +4,7 @@ export class Serie {
         private titulo: string,
         private lancamento: number,
         private sinopse: string,
-        private categoria: string[]
+        private categoria: string
     ) { }
 
     public getId(): string {
@@ -23,7 +23,7 @@ export class Serie {
         return this.sinopse;
     }
 
-    public getCategoria(): string[] {
+    public getCategoria(): string {
         return this.categoria;
     }
 

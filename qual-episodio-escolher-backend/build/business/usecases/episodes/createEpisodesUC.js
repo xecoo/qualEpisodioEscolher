@@ -16,14 +16,14 @@ class CreateEpisodesUC {
         this.idGeneratorDataSource = idGeneratorDataSource;
     }
     verifyInputs(input) {
-        if (!(input.temporada || input.titulo || input.lancamento || input.sinopse || input.idSerie)) {
+        if (!(input.temporada || input.titulo || input.episodio || input.lancamento || input.sinopse || input.idSerie)) {
             throw new Error("Dica: Para criar um episódio, deve preencher todos os campos!");
         }
     }
     execute(input) {
         return __awaiter(this, void 0, void 0, function* () {
             this.verifyInputs(input);
-            const newEpisode = new episode_1.Episode(this.idGeneratorDataSource.generateId(), input.temporada, input.titulo, input.lancamento, input.sinopse, input.idSerie);
+            const newEpisode = new episode_1.Episode(this.idGeneratorDataSource.generateId(), input.temporada, input.titulo, input.episodio, input.lancamento, input.sinopse, input.idSerie);
             yield this.createEpisodesDataSource.createEpisode(newEpisode);
         });
     }
