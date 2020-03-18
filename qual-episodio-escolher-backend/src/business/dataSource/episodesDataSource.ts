@@ -6,5 +6,4 @@ export interface EpisodesDataSource {
     verifyEpisodesExists(id: string): Promise<boolean>;
     getEpisodesById(id: string): Promise<Episode>;
     getAllEpisodesBySerie(idSerie: string): Promise<Episode[]>;
-    getLotteryEpisodeById(idSerie:string):Promise<Episode>;
 }

@@ -29,10 +29,11 @@ class GetAllEpisodesUC {
             };
         });
     }
-    lottery() {
+    getAllEpisodesBySerie(input) {
         return __awaiter(this, void 0, void 0, function* () {
-            const episode = yield this.episodeDataSource.getAllEpisodes();
-            const lotteryEpisode = episode[Math.floor(Math.random() * episode.length)];
+            const arrayEpisodes = yield this.episodeDataSource.getAllEpisodesBySerie(input.idSerie);
+            //const arrayEpisodes = await this.episodeDataSource.getAllEpisodes();
+            const lotteryEpisode = arrayEpisodes[Math.floor(Math.random() * arrayEpisodes.length)];
             return {
                 episodes: {
                     id: lotteryEpisode.getId(),

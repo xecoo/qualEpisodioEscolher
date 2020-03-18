@@ -1,6 +1,5 @@
 import { EpisodesDataSource } from '../../dataSource/episodesDataSource';
 
-
 export class GetAllEpisodesUC {
     constructor(
         private episodeDataSource: EpisodesDataSource
@@ -20,12 +19,12 @@ export class GetAllEpisodesUC {
                 idSerie: episode.getIdSerie()
             }))
         }
-
     }
 
-    public async lottery(): Promise<GetLotterysEpisodeOutput> {
-        const episode = await this.episodeDataSource.getAllEpisodes();
-        const lotteryEpisode = episode[Math.floor(Math.random() * episode.length)];
+    public async getAllEpisodesBySerie(input:GetOneEpisodeByIdUCInput): Promise<GetLotterysEpisodeOutput> {
+        const arrayEpisodes = await this.episodeDataSource.getAllEpisodesBySerie(input.idSerie);
+        //const arrayEpisodes = await this.episodeDataSource.getAllEpisodes();
+        const lotteryEpisode = arrayEpisodes[Math.floor(Math.random() * arrayEpisodes.length)];
         return {
             episodes: {
                 id: lotteryEpisode.getId(),
@@ -38,6 +37,10 @@ export class GetAllEpisodesUC {
             }
         }
     }
+}
+
+export interface GetOneEpisodeByIdUCInput {
+    idSerie:string
 }
 
 export interface GetAllEpisodesUCOutput {
