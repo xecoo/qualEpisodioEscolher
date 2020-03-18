@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import axios from 'axios';
 
 const FormContainer = styled.div`
     display:grid;
@@ -21,29 +19,49 @@ export default class Form extends Component {
         };
     }
 
+    onSubmitSerie = async (event) => {
+        event.preventDefault();
+        const serieInfo = {
+            idSerie: this.state.serie
+        }
+        console.log("Idserie: ", serieInfo)
+        const response = await axios
+            .get(
+                'https://6i406gvgj9.execute-api.us-east-1.amazonaws.com/producao/lottery',
+                serieInfo 
+            );
+        //TODO - erro de CORS
+        console.log(response.data);
+    }
+
+    onChangeInput = (event) => {
+        const { name, value } = event.target
+        this.setState({ [name]: value })
+    }
+
     render() {
         return (
             <FormContainer>
                 <h1>Random</h1>
-                <p>O random foi desenvolvido com a necessidade de fazer eu finalmente assistir
-                a algum episódio e não ir dormir frustrado ao final de ver toda a lista da
-                plataforma streaming.
+                <h4>O objetivo do app é minimizar o tempo de escolha de um episódio da série que deseja
+                    assistir.</h4>
+                <p>Você usuário, que adora reassistir suas séries favoritas, terá um guia para
+                selecionar seu próximo episódio.
                 </p>
                 <label>Escolha qual série quer assistir hoje:</label>
-                <FormControl variant="outlined" >
-                    <InputLabel htmlFor="outlined-age-native-simple">Serie</InputLabel>
-                    <Select
-                        native
-                        value=""
-                        onChange=""
-                        label="Age"
+                <form onSubmit={this.onSubmitSerie} >
+                    <label >Serie</label>
+                    <select
+                        name="serie"
+                        value={this.state.serie}
+                        onChange={this.onChangeInput}
                     >
-                        <option aria-label="None" value="" />
-                        <option value={10}>Ten</option>
-                        <option value={20}>Twenty</option>
-                        <option value={30}>Thirty</option>
-                    </Select>
-                </FormControl>
+                        <option value=""></option>
+                        <option value="6791e000-7192-4438-b8a1-ef6f6feafbd2">Friends</option>
+                        <option value="955ba34e-e5d3-4b9f-a070-5a55916a4710">How I Met Your Mother</option>
+                    </select>
+                    <button type={'submit'}>Start</button>
+                </form>
             </FormContainer>
 
         );
