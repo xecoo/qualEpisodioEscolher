@@ -30,6 +30,7 @@ app.post("/:path/:childPath", async (req: Request, res: Response) => {
     };
     res.status(200).send(response);
   } catch (err) {
+    console.log(err);
     res.status(400).send({
       errorMessage: err.message
     });
@@ -45,6 +46,7 @@ app.get("/:path/:childPath", async (req: Request, res: Response) => {
     };
     res.status(200).send(response);
   } catch (err) {
+    console.log(err);
     res.status(400).send({
       errorMessage: err.message
     });
@@ -60,6 +62,7 @@ app.put("/:path/:childPath", async (req: Request, res: Response) => {
     };
     res.status(200).send(response);
   } catch (err) {
+    console.log(err);
     res.status(400).send({
       errorMessage: err.message
     });
@@ -75,6 +78,7 @@ app.delete("/:path/:childPath", async (req: Request, res: Response) => {
     };
     res.status(200).send(response);
   } catch (err) {
+    console.log(err);
     res.status(400).send({
       errorMessage: err.message
     });
@@ -90,6 +94,7 @@ app.post("/:path", async (req: Request, res: Response) => {
     };
     res.status(200).send(response);
   } catch (err) {
+    console.log(err);
     res.status(400).send({
       errorMessage: err.message
     });
@@ -105,6 +110,7 @@ app.get("/:path", async (req: Request, res: Response) => {
     };
     res.status(200).send(response);
   } catch (err) {
+    console.log(err);
     res.status(400).send({
       errorMessage: err.message
     });
