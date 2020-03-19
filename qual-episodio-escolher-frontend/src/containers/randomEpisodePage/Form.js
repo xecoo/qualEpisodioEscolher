@@ -29,7 +29,7 @@ export default class Form extends Component {
 
         const response = await axios
             .get(
-                'https://localhost:3001/lottery',
+                'https://localhost:3000/lottery',
                 body
 
             )

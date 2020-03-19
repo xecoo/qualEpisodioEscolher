@@ -4,7 +4,7 @@ import cors from 'cors';
 
 const app = express();
 app.use(express.json()); // Linha mágica (middleware)
-app.use(cors());
+app.use(cors({ origin: true }));
 
 app.post("/:route", async (req: Request, res: Response) => {
   try {
