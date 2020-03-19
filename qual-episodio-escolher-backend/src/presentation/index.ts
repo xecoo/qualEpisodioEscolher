@@ -1,8 +1,10 @@
 import express, { Request, Response } from "express";
 import { ApiRouter } from "./router";
+import cors from 'cors';
 
 const app = express();
 app.use(express.json()); // Linha mágica (middleware)
+app.use(cors());
 
 app.post("/:route", async (req: Request, res: Response) => {
   try {

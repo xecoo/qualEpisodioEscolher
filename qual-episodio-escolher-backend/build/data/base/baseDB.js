@@ -11,7 +11,7 @@ class BaseDB {
             connection: {
                 host: "ec2-34-228-216-172.compute-1.amazonaws.com",
                 user: "root",
-                password: "qualepisodioassistir",
+                password: process.env.SENHA_TCC,
                 database: "qualEpisodioAssistir",
                 ssl: true
             }

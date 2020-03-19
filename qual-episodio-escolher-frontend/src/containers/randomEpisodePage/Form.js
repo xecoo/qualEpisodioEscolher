@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import Helmet from 'react-helmet';
 
 const FormContainer = styled.div`
     display:grid;
@@ -26,19 +27,13 @@ export default class Form extends Component {
         }
         console.log("Idserie: ", body)
 
-        const config = {
-            headers: {'Access-Control-Allow-Origin': '*'}
-        };
-
         const response = await axios
             .get(
-                'https://6i406gvgj9.execute-api.us-east-1.amazonaws.com/producao/lottery',
-                config, body
-                
+                'https://localhost:3001/lottery',
+                body
+
             )
         ;
-
-        //TODO - erro de CORS
         console.log(response.data);
     }
 
@@ -50,10 +45,10 @@ export default class Form extends Component {
     render() {
         return (
             <FormContainer>
-                <h1>Random</h1>
+                <Helmet title="Random - A gente escolhe por você!" />
                 <h4>O objetivo do app é minimizar o tempo de escolha de um episódio da série que deseja
                     assistir.</h4>
-                <p>Você usuário, que adora reassistir suas séries favoritas, terá um guia para
+                <p>Você usuário, que adora assistir e reassistir suas séries favoritas, terá um guia para
                 selecionar seu próximo episódio.
                 </p>
                 <label>Escolha qual série quer assistir hoje:</label>

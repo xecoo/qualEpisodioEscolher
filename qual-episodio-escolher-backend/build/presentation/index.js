@@ -14,8 +14,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const router_1 = require("./router");
+const cors_1 = __importDefault(require("cors"));
 const app = express_1.default();
 app.use(express_1.default.json()); // Linha mágica (middleware)
+app.use(cors_1.default());
 app.post("/:route", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield router_1.ApiRouter.handleRoute(req.params.route, req);
