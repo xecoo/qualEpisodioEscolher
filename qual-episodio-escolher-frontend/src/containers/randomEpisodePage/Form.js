@@ -28,9 +28,9 @@ export default class Form extends Component {
         console.log("Idserie: ", body)
 
         const response = await axios
-            .get(
-                'https://localhost:3000/lottery',
-                body
+            .post(
+                'http://localhost:3000/lottery',
+                { body } 
 
             )
         ;

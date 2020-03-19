@@ -18,9 +18,20 @@ const cors_1 = __importDefault(require("cors"));
 const app = express_1.default();
 app.use(express_1.default.json()); // Linha mágica (middleware)
 app.use(cors_1.default({ origin: true }));
-app.post("/:route", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const generateRoute = (path, childPath, grandChildPath) => {
+    let route = path;
+    if (childPath) {
+        route = `${route}/${childPath}`;
+        if (grandChildPath) {
+            route = `${route}/${grandChildPath}`;
+        }
+    }
+    return route;
+};
+app.post("/:path/:childPath", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield router_1.ApiRouter.handleRoute(req.params.route, req);
+        const path = generateRoute(req.params.path, req.params.childPath);
+        const result = yield router_1.ApiRouter.handleRoute(path, req);
         const response = {
             result
         };
@@ -32,9 +43,10 @@ app.post("/:route", (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
 }));
-app.get("/:route", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get("/:path/:childPath", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield router_1.ApiRouter.handleRoute(req.params.route, req);
+        const path = generateRoute(req.params.path, req.params.childPath);
+        const result = yield router_1.ApiRouter.handleRoute(path, req);
         const response = {
             result
         };
@@ -46,9 +58,10 @@ app.get("/:route", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
 }));
-app.put("/:route", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.put("/:path/:childPath", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield router_1.ApiRouter.handleRoute(req.params.route, req);
+        const path = generateRoute(req.params.path, req.params.childPath);
+        const result = yield router_1.ApiRouter.handleRoute(path, req);
         const response = {
             result
         };
@@ -60,9 +73,70 @@ app.put("/:route", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
 }));
-app.delete("/:route", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.delete("/:path/:childPath", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield router_1.ApiRouter.handleRoute(req.params.route, req);
+        const path = generateRoute(req.params.path, req.params.childPath);
+        const result = yield router_1.ApiRouter.handleRoute(path, req);
+        const response = {
+            result
+        };
+        res.status(200).send(response);
+    }
+    catch (err) {
+        res.status(400).send({
+            errorMessage: err.message
+        });
+    }
+}));
+app.post("/:path", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const path = generateRoute(req.params.path);
+        const result = yield router_1.ApiRouter.handleRoute(path, req);
+        const response = {
+            result
+        };
+        res.status(200).send(response);
+    }
+    catch (err) {
+        res.status(400).send({
+            errorMessage: err.message
+        });
+    }
+}));
+app.get("/:path", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const path = generateRoute(req.params.path);
+        const result = yield router_1.ApiRouter.handleRoute(path, req);
+        const response = {
+            result
+        };
+        res.status(200).send(response);
+    }
+    catch (err) {
+        res.status(400).send({
+            errorMessage: err.message
+        });
+    }
+}));
+app.put("/:path", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const path = generateRoute(req.params.path);
+        const result = yield router_1.ApiRouter.handleRoute(path, req);
+        const response = {
+            result
+        };
+        res.status(200).send(response);
+    }
+    catch (err) {
+        res.status(400).send({
+            errorMessage: err.message
+        });
+    }
+}));
+app.delete("/:path", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const path = generateRoute(req.params.path);
+        const result = yield router_1.ApiRouter.handleRoute(path, req);
         const response = {
             result
         };
