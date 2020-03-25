@@ -7,9 +7,9 @@ import {
 import RandomEpisodePage from '../randomEpisodePage/RandomEpisodePage';
 
 const Routes = {
-    signup:'/signup',
-    login:'/login',
-    random:'/'
+    signup: '/signup',
+    login: '/login',
+    random: '/'
 };
 
 class Router extends Component {
@@ -24,7 +24,7 @@ class Router extends Component {
                         LOGIN
                     </Route>
                     <Route path={Routes.random}>
-                        <RandomEpisodePage/>
+                        <RandomEpisodePage />
                     </Route>
                 </Switch>
             </BrowserRouter>
